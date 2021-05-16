@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ps5 digital edition
-amazondig='B08GD9MNZB'
+amazondig='B08H97NYGP'
 
 # ps5 standard edition
 amazonstd='B08H95Y452'
