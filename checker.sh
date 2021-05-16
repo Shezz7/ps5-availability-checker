@@ -22,7 +22,8 @@ check_amazon() {
             fi
 
             if [[ $status != "Currently unavailable." && $status != "Derzeit nicht verfügbar." ]]; then
-                echo "AVAILABLE!"
+                echo "Go get your PS5 here: https://www.amazon."$region"/dp/"$version"" \
+                | mail -s "PS5 is in stock!" shehzaadsaifulla@gmail.com
             else
                 echo "$(date):Amazon ""$region"":""$model"":""$status"""
             fi
