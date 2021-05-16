@@ -21,7 +21,7 @@ check_amazon() {
                 model='Standard Edition'
             fi
 
-            if [[ ! "$status" =~ ^(Currently unavailable.|Derzeit nicht verfügbar.)$ ]]; then
+            if [[ $status != "Currently unavailable." && $status != "Derzeit nicht verfügbar." ]]; then
                 echo "AVAILABLE!"
             else
                 echo "$(date):Amazon ""$region"":""$model"":""$status"""
