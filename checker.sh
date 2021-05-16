@@ -15,10 +15,16 @@ check_amazon() {
             status=$(curl -s https://www.amazon."$region"/dp/"$version" -H 'User-Agent: Mozilla/5.0 (X11; Linux i686; rv:88.0) Gecko/20100101 Firefox/88.0' \
             | grep -i "div id=\"availability\"" -A 10 | sed -n '7 p')
 
+            if [ $version == $amazondig ]; then
+                model='Digital Edition'
+            else
+                model='Standard Edition'
+            fi
+
             if [[ ! "$status" =~ ^(Currently unavailable.|Derzeit nicht verfügbar.)$ ]]; then
                 echo "AVAILABLE!"
             else
-                echo "$(date):Amazon ""$region"":""$status"""
+                echo "$(date):Amazon ""$region"":""$model"":""$status"""
             fi
         done
     done
