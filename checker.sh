@@ -7,19 +7,18 @@ amazondig='B08H97NYGP'
 amazonstd='B08H95Y452'
 
 check_amazon() {
-    versions="$@"
+    versions=$*
     regions="co.uk de"
 
     for version in $versions; do
         for region in $regions; do
-            echo $region
-            status=$(curl -s https://www.amazon.$region/dp/$version -H 'User-Agent: Mozilla/5.0 (X11; Linux i686; rv:88.0) Gecko/20100101 Firefox/88.0' \
+            status=$(curl -s https://www.amazon."$region"/dp/"$version" -H 'User-Agent: Mozilla/5.0 (X11; Linux i686; rv:88.0) Gecko/20100101 Firefox/88.0' \
             | grep -i "div id=\"availability\"" -A 10 | sed -n '7 p')
-            echo $status
-            if [ "$status" != "Currently unavailable." ]; then
+
+            if [[ ! "$status" =~ ^(Currently unavailable.|Derzeit nicht verfügbar.)$ ]]; then
                 echo "AVAILABLE!"
             else
-                echo "$(date):Amazon is out of stock"
+                echo "$(date):Amazon ""$region"":""$status"""
             fi
         done
     done
