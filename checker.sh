@@ -12,14 +12,14 @@ check_amazon() {
 
     for version in $versions; do
         for region in $regions; do
-            status=$(curl -s https://www.amazon."$region"/dp/"$version" -H 'User-Agent: Mozilla/5.0 (X11; Linux i686; rv:88.0) Gecko/20100101 Firefox/88.0' \
-            | grep -i "div id=\"availability\"" -A 10 | sed -n '7 p')
-
             if [ "$version" == "$amazondig" ]; then
                 model='Digital Edition'
             else
                 model='Standard Edition'
             fi
+
+            status=$(curl -s https://www.amazon."$region"/dp/"$version" -H 'User-Agent: Mozilla/5.0 (Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0' \
+            | grep -i "div id=\"availability\"" -A 10 | sed -n '7 p')
 
             if [[ $status != "Currently unavailable." && $status != "Derzeit nicht verfügbar." ]]; then
                 echo "Go get your PS5 here: https://www.amazon.$region/dp/$version" \
@@ -28,6 +28,7 @@ check_amazon() {
             else
                 echo "$(date):Amazon ""$region"":""$model"":""$status""" >> /opt/ps5.log
             fi
+            sleep 10
         done
     done
 }
